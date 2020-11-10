@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# Snackbar-Popup
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This component is built on top of the Material UI Snackbar and implemented using a custom hook and React Context provider for reusability. Material UI, as well as many other public front-end libraries, is exceptionally developed and well documented, but whenever we go to implement a component, a snackbar in this case, the developer needs to write too much boilerplate to make it work every single time.
 
-## Available Scripts
+## The solution
 
-In the project directory, you can run:
+The premise of this snackbar is to reduce the code necessary to implement the same Material UI Snackbar you know and love by defining a global provider using just a base React Context, so we can link snackbars and trigger notifications with simple function call.
 
-### `yarn start`
+Example:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+// index.js
+import React from 'react'
+import { SnackbarProvider } from 'snackbar-popup'
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+import App from './components/App'
 
-### `yarn test`
+ReactDOM.render(
+  <React.StrictMode>
+    <SnackbarProvider>
+    <App />
+    </SnackbarProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+// App.js
+import React from 'react'
+import { useSnackbar } from 'snackbar-popup'
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const App = () => {
+    const snackbar = useSnackbar()
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    return (
+        <div>
+            <button onClick={() => snackbar({type: 'success', message: 'Successfully completed'})} />
+            <button onClick={() => snackbar({type: 'error', message: 'There was an error when updating'})} />
+        </div>
+    )
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+As you can see in the example above, once your app has been wrapped with `<SnackbarProvder />` you can use the useSnackbar hook anywhere in order to implement the function call to render the success or error notification.
 
-### `yarn eject`
+<br />
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Getting Started
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This is a React component (built for hooks) and it is built on top of the Material UI Dialog so it uses the following dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. React 16.8 or higher.
+2. Material UI (latest).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To install, make sure your .npm config file is pointing to the Genesis Professional Group artifact registry so that Yarn/NPM know to look there before going to the public NPM registry.
 
-## Learn More
+In your cli run:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Using yarn<br />
+`yarn add snackbar-popup`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Using npm<br />
+`npm i snackbar-popup`
 
-### Code Splitting
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Features
 
-### Analyzing the Bundle Size
+The snackbar will simply display a 3-second notification at the bottom center of the screen. When passing a `type` success or error it will toggle the color green or red and allow you to send in a custom message.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Overriding the default icons
 
-### Making a Progressive Web App
+To have the snackbar override the default success and error icons, all you need to do is define the specified className in the useSnackbar hook (first argument is for the success and second is for the error):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+const Component = () => {
+  const snackbar = useSnackBar("fas fa-thumbs-up", "fas fa-times")
+/*...*/
+```
 
-### Advanced Configuration
+The code above will simply override the default fontawesome icon, that is originally set.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Original classNames set by default are: "fas fa-check-circle" and "fas fa-exclamation-circle"
 
-### Deployment
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Options
 
-### `yarn build` fails to minify
+- useSnackBar returns a function that allows you to render the snackbar notification. The function takes in an objects wil the following keys:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  - `type` string: Passing "success" will render the snackbar green with the success icon and error will render the snackbar red and error icon.
+  - `message` string: Passing a custom message to render inside of the snackbar when rendered.
+  - `autoHideDuration` number: Option to override the original auto hide duration of 3 seconds.
+
+<br />
+
+# Contribute
+
+All committed code must be 100% covered by unit tests and it's subject to review and approval by David Colatti.
