@@ -32,8 +32,8 @@ export const useSnackBar = (classes) => {
     const messageOutput = (
       <>
         <i
-          className={`${iconClassName} GPG__Snackbar-Icon`}
-          data-testid="GPG_Icon-Test"
+          className={`${iconClassName} Snackbar__Icon`}
+          data-testid="Snackbar_Icon-Test"
         />
         {message}
       </>

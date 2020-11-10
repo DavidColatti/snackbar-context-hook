@@ -38,15 +38,15 @@ const SnackbarProvider = ({ children }) => {
         }}
         open={isOpen}
         onClose={handleClose}
-        className="DC__Snackbar"
+        className="Snackbar"
         autoHideDuration={autoHideDuration || 3000}
         TransitionComponent={(props) => <Slide {...props} direction="up" />}
       >
         <Paper
-          className="DC__Snackbar-Content"
+          className="Snackbar-Content"
           data-type={isSuccessful ? "success" : "error"}
         >
-          <Typography className="DC__Snackbar-Typography">{message}</Typography>
+          <Typography className="Snackbar-Typography">{message}</Typography>
         </Paper>
       </Snackbar>
     </SnackbarContext.Provider>

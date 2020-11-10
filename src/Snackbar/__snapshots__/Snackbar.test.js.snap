@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SnackbarProvider /> Should cover the else statement if not sending any info for the hook function 1`] = `
+<button>
+  Click
+</button>
+`;
